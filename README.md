@@ -36,9 +36,24 @@ The hosted app can be opened directly on phones, tablets, and computers with int
 - Character identity, costume, both hand slots, and ride slots are composited into a single puppet image. Detailed pre-drawn variants include sword-and-shield guards, horse and boat riders, basket carriers, archers, and lantern bearers; other recognized tools and rides are drawn into the generated character image. Movement includes entrance and exit, baseline forward and backward steps, upper-line and baseline travel, meetings, and attack lunges with a reaction from the adjacent character.
 - Each setting gets its own baseline/upper-line point count, sized to the largest cast present in that setting's acts. The act timeline shows the active point and that setting's total points.
 - Play/Pause controls the live performance and browser speech. Afterward, the final frame remains visible and the show does not loop.
-- Story parsing, conversion estimates, character assignment, motion, and scene choices are local heuristics, not AI language understanding.
+- Base story parsing, conversion estimates, character assignment, motion, and scene choices use local heuristics. Optional Cloudflare AI enrichment can add scene, time-of-day, and movement-description suggestions for stories the rules flag as difficult.
+- Action narration is spoken by an off-screen narrator; quoted dialogue is spoken by the identified character. Narrator is not added to the on-stage cast. Animals are not assigned hand props. The act timeline includes a generated movement description.
 - Six illustrated backdrops are selected by story setting and time-of-day shades. They are not AI-generated images.
 - Browser voices are device-specific and require browser speech-synthesis support. No audio or video file is rendered or downloaded.
+
+## Optional open-model story enrichment
+
+Story conversion always runs in the browser first. For stories with ambiguous reasoning, many characters, or complex action/speech cues, the app can ask the Cloudflare Worker for extra scene, time-of-day, and movement-description suggestions. These suggestions are accepted only when they match the app's allowed settings and confidence threshold. If the Worker is not configured, is unavailable, or reaches a provider limit, the browser's local conversion continues without interruption.
+
+The Worker uses Qwen 3.8 27B through Cloudflare Workers AI. The model is available under Apache 2.0 terms; Cloudflare's hosted inference still has service limits. The Workers Free plan currently includes 10,000 Neurons per day, after which inference calls fail until the quota resets or a paid plan is used. To conserve that allowance, the app only sends eligible stories up to 6,000 characters and 30 acts, and requests a bounded output. [Cloudflare model details](https://developers.cloudflare.com/workers-ai/models/qwen3.8-27b/) · [Cloudflare AI pricing and limits](https://developers.cloudflare.com/workers-ai/platform/pricing/) · [Qwen model license](https://huggingface.co/Qwen/Qwen3.8-27B).
+
+To enable AI enrichment:
+
+1. Create a Cloudflare account, then from the project directory run `cd worker`, `npx wrangler@latest login`, and `npx wrangler@latest deploy`.
+2. If you reuse this Worker configuration for another Worker in the same Cloudflare account, give it an unused `ratelimits[0].namespace_id`. Add your published site origin to `ALLOWED_ORIGINS` if it differs from the listed GitHub Pages origin.
+3. Copy the deployed `workers.dev` URL into `ai-config.js` as `window.PUPPETSHOW_AI_ENDPOINT`. This is a public endpoint URL, not a secret. The AI binding and model access remain on Cloudflare; do not put account tokens or model credentials in browser files.
+
+The Worker allows five enrichment calls per minute per client IP and story-enrichment route. Cloudflare documents this rate limiter as approximate and location-based, so it reduces casual overuse but is not a strict global quota. The AI daily quota is separately enforced by Cloudflare. If it is reached, the browser uses local conversion instead.
 
 ## Files
 
@@ -49,6 +64,8 @@ The hosted app can be opened directly on phones, tablets, and computers with int
 - `start-windows.bat`: Windows local launcher; does not require Python.
 - `start-macos-linux.sh`: opens the hosted app; does not require Python.
 - `.github/workflows/pages.yml`: publishes the static app to GitHub Pages after Pages is enabled.
+- `ai-config.js`: public Worker URL used for optional AI enrichment; it contains no credential.
+- `worker/`: Cloudflare Worker source, Workers AI binding, CORS allowlist, and request rate limit.
 - `assets/puppets/`, `assets/backgrounds/`: reusable puppet figures and illustrated scenes.
 - No default story or bundled sample-story files.
 
