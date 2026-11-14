@@ -4,7 +4,7 @@ const MAX_SENTENCES = 30;
 const MAX_CHARACTERS = 18;
 const ALLOWED_SETTINGS = new Set(['queens-chamber', 'throne-hall', 'princes-garden', 'village-market', 'house-interior', 'rishi-ashram', 'forest-hut', 'panchavati-forest', 'kurukshetra', 'battlefield', 'lanka', 'ayodhya', 'dwarka', 'celestial-heaven', 'night-scene', 'seashore', 'riverbank', 'cave', 'mountains', 'farmland', 'forest-jungle', 'temple', 'village', 'royal-palace', 'jail', 'camp', 'p7-village']);
 const ALLOWED_TIMES = new Set(['morning', 'noon', 'evening', 'night']);
-const ALLOWED_MOMENTS = new Set(['rideBoat', 'ride', 'fight', 'attack', 'defend', 'fall', 'recover', 'dance', 'jump', 'fly', 'run', 'walk', 'wave', 'enter', 'exit', 'backward', 'turn', 'meet', 'climb', 'up', 'down', 'still']);
+const ALLOWED_MOMENTS = new Set(['rideBoat', 'ride', 'pickup', 'fight', 'aim', 'attack', 'defend', 'fall', 'recover', 'dance', 'jump', 'fly', 'run', 'walk', 'wave', 'enter', 'exit', 'backward', 'turn', 'meet', 'climb', 'up', 'down', 'still']);
 const ALLOWED_PROPS = new Set(['sword', 'shield', 'bow', 'arrow', 'boat', 'horse', 'none']);
 
 function responseJson(body, status, origin) {
