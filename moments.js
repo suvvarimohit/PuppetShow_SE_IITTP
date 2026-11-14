@@ -1,5 +1,11 @@
 (() => {
   const RULES = [
+    ['throwRope', /\b(?:throws?|threw|casts?|cast)\s+(?:a\s+)?rope\b/i, 1.1],
+    ['pullRope', /\b(?:pulls?|pulled|hauls?|hauled)\s+(?:the\s+)?(?:rope|boat|raft|person|fisherman|villager|him|her|them|himself|herself|themselves)\b|\b(?:pulls?|pulled|hauls?|hauled)\s+(?:him|her|them)\s+to\s+safety\b/i, 1.5],
+    ['lift', /\b(?:lifts?|lifted|raises?|raised|hoists?|hoisted)\s+(?:the\s+)?(?:heavy\s+)?(?:branch|log|stone|rock|debris|trap|door|person|child|animal)\b/i, 1.45],
+    ['kneel', /\b(?:kneels?|knelt|kneeling)\b/i, .9],
+    ['give', /\b(?:gives?|gave|hands?|handed|offers?|offered|passes?|passed)\b.{0,45}\b(?:medicine|packet|food|water|bandage|herb|supplies|basket|rope)\b/i, 1.15],
+    ['rescue', /\b(?:rescues?|rescued|frees?|freed|helps?|helped)\b.{0,55}\b(?:free|escape|out|safety|trapped|pinned|danger|river|water)\b|\b(?:is|was) freed\b/i, 1.35],
     ['pickup', /\b(?:picks? up|picked up|takes? hold of|took hold of|grabs?|grabbed|raises? the|raised the|holds?|held)\b.{0,45}\b(?:sword|shield|bow|staff|spear|book|basket|lantern|tool|flower|key|cup|rope|oar)\b/i, .9],
     ['rideBoat', /\b(?:boards?|boarded|sails?|sailed|rows?|rowed|paddles?|paddled|floats? across|climbs? into|climbed into)\b.{0,55}\b(?:boat|canoe|raft|ship)\b|\b(?:boards?|boarded|sails?|sailed|rows?|rowed|paddles?|paddled|floats? across)\b/i, 2.4],
     ['ride', /\b(?:rides?|rode|riding|mounts?|mounted|gallops?|galloped)\b|\b(?:goes?|went|travels?|travelled|traveled|journeys?|journeyed|walks?|walked)\b.{0,55}\b(?:on|upon|astride)\s+(?:(?:his|her|their|a|an|the)\s+)?(?:horse|camel|elephant)\b/i, 2.1],
@@ -25,13 +31,13 @@
     ['down', /\b(?:lands?|landed|descends?|descended|comes? down|came down)\b/i, 1.1]
   ];
   const ROLE_ACTIONS = {
-    human: new Set(['rideBoat','ride','pickup','fight','aim','attack','defend','fall','recover','dance','jump','run','walk','wave','enter','exit','backward','turn','meet','climb','up','down']),
-    animal: new Set(['fight','attack','fall','recover','dance','jump','run','walk','enter','exit','backward','turn','meet','climb','up','down']),
+    human: new Set(['rideBoat','ride','pickup','fight','aim','attack','defend','fall','recover','dance','jump','run','walk','wave','enter','exit','backward','turn','meet','climb','up','down','throwRope','pullRope','lift','kneel','give','rescue']),
+    animal: new Set(['fight','attack','fall','recover','dance','jump','run','walk','enter','exit','backward','turn','meet','climb','up','down','kneel','rescue']),
     bird: new Set(['fight','attack','fall','recover','dance','jump','run','walk','fly','enter','exit','backward','turn','meet','up','down']),
     object: new Set(['turn'])
   };
-  const DURATION = {pickup:.9,aim:1,walk:1.25,run:1.05,ride:1.7,rideBoat:1.8,fly:1.5,jump:.8,wave:.8,turn:.6,dance:1.8,attack:1.25,fight:1.8,defend:1,fall:.9,recover:.8,enter:1,exit:1,backward:.9,meet:.8,climb:1.2,up:1,down:.9,still:.55};
-  const LABEL = {pickup:'Pick up',aim:'Aim',walk:'Walk',run:'Run',ride:'Ride',rideBoat:'Boat ride',fly:'Fly',jump:'Jump',wave:'Wave',turn:'Turn',dance:'Dance',attack:'Attack',fight:'Fight',defend:'Defend',fall:'Fall',recover:'Recover',enter:'Enter',exit:'Exit',backward:'Retreat',meet:'Meet',climb:'Climb',up:'Rise',down:'Land',still:'Speak'};
+  const DURATION = {pickup:.9,aim:1,walk:1.25,run:1.05,ride:1.7,rideBoat:1.8,fly:1.5,jump:.8,wave:.8,turn:.6,dance:1.8,attack:1.25,fight:1.8,defend:1,fall:.9,recover:.8,enter:1,exit:1,backward:.9,meet:.8,climb:1.2,up:1,down:.9,throwRope:1.1,pullRope:1.5,lift:1.45,kneel:.9,give:1.15,rescue:1.35,still:.55};
+  const LABEL = {pickup:'Pick up',aim:'Aim',walk:'Walk',run:'Run',ride:'Ride',rideBoat:'Boat ride',fly:'Fly',jump:'Jump',wave:'Wave',turn:'Turn',dance:'Dance',attack:'Attack',fight:'Fight',defend:'Defend',fall:'Fall',recover:'Recover',enter:'Enter',exit:'Exit',backward:'Retreat',meet:'Meet',climb:'Climb',up:'Rise',down:'Land',throwRope:'Throw rope',pullRope:'Pull to safety',lift:'Lift obstacle',kneel:'Kneel',give:'Hand over item',rescue:'Rescue',still:'Speak'};
 
   function roleOf(actor) {
     if (!actor) return 'human';
@@ -58,8 +64,8 @@
     act.moment=moment;
     if(moment.kind!=='still'){
       const movement={...act.movement,kind:moment.kind,label:moment.label,seconds:moment.duration};
-      if(target&&(moment.sequence||[moment.kind]).some(kind=>['attack','fight','defend','meet'].includes(kind))){movement.targetId=target.id;act.target=target}
-      if(['walk','run','ride','rideBoat','climb'].includes(moment.kind)){
+      if(target&&(moment.sequence||[moment.kind]).some(kind=>['attack','fight','defend','meet','throwRope','pullRope','lift','give','rescue','kneel'].includes(kind))){movement.targetId=target.id;act.target=target}
+      if(['walk','run','ride','rideBoat','climb','pullRope'].includes(moment.kind)){
         const pose=act.positions?.find(position=>position.id===act.actor?.id),target=act.target&&act.positions?.find(position=>position.id===act.target.id),baseX=pose?.x??.5,direction=target?(Math.sign(target.x-baseX)||1):(baseX>.82?-1:1),distance=moment.kind==='run'?.19:moment.kind==='ride'||moment.kind==='rideBoat'?.2:moment.kind==='climb'?.06:.11;
         movement.from={...(movement.from||{}),x:baseX};movement.to={...(movement.to||{}),x:Math.max(.06,Math.min(.94,baseX+direction*distance))};
       }
