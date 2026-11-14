@@ -96,3 +96,4 @@ main{max-width:1360px;padding:38px 5% 30px}.heading{margin-bottom:24px}.heading 
 }
 
 .show-view .stage-overlay.rendering{background:#171714f5;z-index:3}
+.stage-overlay.start-show{width:auto;height:auto;border:0;cursor:pointer;font:inherit}.stage-overlay.start-show:hover{background:linear-gradient(#18151dcc,#21150dcc)}.stage-overlay.start-show:focus-visible{outline:3px solid #e5bd72;outline-offset:-8px}.stage-overlay.start-show small{margin-top:9px;color:#e1d4bd;font-size:12px}

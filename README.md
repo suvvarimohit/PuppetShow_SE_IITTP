@@ -39,7 +39,7 @@ The hosted app can be opened directly on phones, tablets, and computers with int
 - Base story parsing, conversion estimates, character assignment, motion, and scene choices use local heuristics. Optional Cloudflare AI enrichment can add scene, time-of-day, and movement-description suggestions for stories the rules flag as difficult.
 - Action narration is spoken by an off-screen narrator; quoted dialogue is spoken by the identified character. Narrator is not added to the on-stage cast. Animals are not assigned hand props. The act timeline includes a generated movement description.
 - The supplied P7 and P8 theatrical backdrops are selected by story location, with time-of-day lighting applied separately.
-- Browser voices are device-specific and require browser speech-synthesis support. No audio or video file is rendered or downloaded.
+- Browser voices are device-specific and require browser speech-synthesis support. After the show page opens, tap the stage prompt once to allow voice playback; if the browser has no usable voice, the show continues at narration pace. No audio or video file is rendered or downloaded.
 
 ## Optional open-model story enrichment
 
