@@ -6,7 +6,7 @@
     ['fight', /\b(?:fights?|fought|duels?|brawls?|battled|battling)\b/i, 2.2],
     ['aim', /\b(?:aims?|aimed|raises? (?:her|his|their|the)? ?(?:bow|staff|spear)|raised (?:her|his|their|the)? ?(?:bow|staff|spear)|draws? (?:a |the )?bow|drew (?:a |the )?bow|nocks? an? arrow|nocked an? arrow)\b/i, 1.0],
     ['attack', /\b(?:attacks?|shoots?|shot|fires?|fired|launches?|launched|strikes?|struck|hits?|hit|stabs?|stabbed|swings?|swung|slashes?|slashed|punch(?:es|ed|ing)?|kicks?|kicked)\b/i, 1.7],
-    ['defend', /\b(?:defends?|defended|blocks?|blocked|parries?|parried|shielded)\b/i, 1.6],
+    ['defend', /\b(?:defends?|defended|blocks?|blocked|parries?|parried|shielded|raises? (?:his|her|their|the)? ?shield|raised (?:his|her|their|the)? ?shield)\b/i, 1.6],
     ['fall', /\b(?:falls?|fell|topples?|toppled|collapses?|collapsed)\b/i, 1.3],
     ['recover', /\b(?:gets? up|got up|stands? up|stood up|recovers?|recovered)\b/i, 1.1],
     ['dance', /\b(?:dances?|danced|twirls?|twirled|spins?|spun|celebrates?|celebrated)\b/i, 2.0],
