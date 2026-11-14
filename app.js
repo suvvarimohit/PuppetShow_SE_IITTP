@@ -276,7 +276,32 @@ function applyMomentEvents(data,events){
  data.aiMoments=true;return data;
 }
 async function enrichShowData(text,data){data=await enrichWithStoryAI(text,data);const held=new Map();for(const act of data.acts){PuppetMoments.apply(act);act.visualSlots=visualSlotsForAct(act,held);syncActActionData(act)}data=await enrichWithActionMoments(text,data);for(const act of data.acts)syncActActionData(act);return data}
-function normalizeShowPlan(data){const castById=new Map(cast.map(character=>[character.id,character])),normalizedActs=[];for(const [index,act] of data.acts.entries()){const actor=castById.get(act.actor?.id);if(!actor)continue;act.actor=actor;act.participants=[...new Set((act.participants||[]).map(item=>castById.get(typeof item==='string'?item:item?.id)?.id).filter(Boolean))];if(!act.participants.includes(actor.id))act.participants.unshift(actor.id);const positions=new Map();for(const position of act.positions||[]){if(!castById.has(position.id)||positions.has(position.id))continue;const x=Number(position.x),y=Number(position.y);positions.set(position.id,{...position,x:Number.isFinite(x)?Math.max(.03,Math.min(.97,x)):.5,y:Number.isFinite(y)?Math.max(.1,Math.min(.95,y)):.88,line:position.line==='upper'?'upper':'base',visible:position.visible!==false})}for(const id of act.participants)if(!positions.has(id))positions.set(id,{id,x:.5,y:.88,line:'base',visible:true});act.positions=[...positions.values()];act.movement.seconds=Math.max(.15,Number(act.movement?.seconds)||.55);for(const key of ['from','to']){const point=act.movement[key]||{},x=Number(point.x),y=Number(point.y);act.movement[key]={...point,x:Number.isFinite(x)?Math.max(-.12,Math.min(1.12,x)):(positions.get(actor.id)?.x??.5),y:Number.isFinite(y)?Math.max(.1,Math.min(.95,y)):(positions.get(actor.id)?.y??.88),line:point.line==='upper'?'upper':'base'}}const raw=Array.isArray(act.moment?.segments)&&act.moment.segments.length?act.moment.segments:(act.moment?.sequence||[act.moment?.kind||act.movement.kind]).map(kind=>({kind,duration:1})),sum=raw.reduce((total,item)=>total+Math.max(.1,Number(item.duration)||1),0),duration=Math.max(.15,Number(act.moment?.duration)||act.movement.seconds);act.moment={...act.moment,duration,segments:raw.map(item=>({kind:String(item.kind||act.moment?.kind||act.movement.kind),duration:duration*Math.max(.1,Number(item.duration)||1)/sum}))};act.moment.sequence=act.moment.segments.map(item=>item.kind);act.number=index+1;normalizedActs.push(act)}return{...data,schemaVersion:1,cast:cast.slice(),acts:normalizedActs}}
+function normalizeShowPlan(data){
+ const castById=new Map(cast.map(character=>[character.id,character])),normalizedActs=[];
+ for(const [index,act] of data.acts.entries()){
+  const actor=castById.get(act.actor?.id);if(!actor)continue;act.actor=actor;
+  const participantIds=[...new Set((act.participants||[]).map(item=>castById.get(typeof item==='string'?item:item?.id)?.id).filter(Boolean))];
+  if(!participantIds.includes(actor.id))participantIds.unshift(actor.id);
+  act.participants=participantIds.map(id=>castById.get(id));
+  const positions=new Map();
+  for(const position of act.positions||[]){
+   if(!castById.has(position.id)||positions.has(position.id))continue;
+   const x=Number(position.x),y=Number(position.y);
+   positions.set(position.id,{...position,x:Number.isFinite(x)?Math.max(.03,Math.min(.97,x)):.5,y:Number.isFinite(y)?Math.max(.1,Math.min(.95,y)):.88,line:position.line==='upper'?'upper':'base',visible:position.visible!==false});
+  }
+  for(const participant of act.participants){const id=participant.id;if(!positions.has(id))positions.set(id,{id,x:.5,y:.88,line:'base',visible:true})}
+  act.positions=[...positions.values()];act.movement.seconds=Math.max(.15,Number(act.movement?.seconds)||.55);
+  for(const key of ['from','to']){
+   const point=act.movement[key]||{},x=Number(point.x),y=Number(point.y);
+   act.movement[key]={...point,x:Number.isFinite(x)?Math.max(-.12,Math.min(1.12,x)):(positions.get(actor.id)?.x??.5),y:Number.isFinite(y)?Math.max(.1,Math.min(.95,y)):(positions.get(actor.id)?.y??.88),line:point.line==='upper'?'upper':'base'};
+  }
+  const raw=Array.isArray(act.moment?.segments)&&act.moment.segments.length?act.moment.segments:(act.moment?.sequence||[act.moment?.kind||act.movement.kind]).map(kind=>({kind,duration:1}));
+  const sum=raw.reduce((total,item)=>total+Math.max(.1,Number(item.duration)||1),0),duration=Math.max(.15,Number(act.moment?.duration)||act.movement.seconds);
+  act.moment={...act.moment,duration,segments:raw.map(item=>({kind:String(item.kind||act.moment?.kind||act.movement.kind),duration:duration*Math.max(.1,Number(item.duration)||1)/sum}))};
+  act.moment.sequence=act.moment.segments.map(item=>item.kind);act.number=index+1;normalizedActs.push(act);
+ }
+ return{...data,schemaVersion:1,cast:cast.slice(),acts:normalizedActs};
+}
 function refreshVideoTimeline(){let cursor=0;for(let i=0;i<acts.length;i++){const act=acts[i],duration=Math.max(.15,Number(act.seconds)||Number(act.movement.seconds)||.55);act.timeline={index:i,startSeconds:cursor,durationSeconds:duration,endSeconds:cursor+duration};cursor+=duration;syncActActionData(act)}runTime=cursor;videoPlan={schemaVersion:1,cast:cast.map(actor=>actor.id),acts:acts.map(act=>({number:act.number,actorId:act.actor.id,kind:act.moment?.kind||act.movement.kind,setting:act.setting,startSeconds:act.timeline.startSeconds,durationSeconds:act.timeline.durationSeconds,endSeconds:act.timeline.endSeconds})),durationSeconds:cursor};return videoPlan}
 
 function renderCast(){const list=$('#castList');list.innerHTML=cast.map((c,i)=>`<div><div class="cast-item"><div class="cast-thumb"><img data-character="${escapeHtml(c.id)}" src="${c.role==='human'?humanPortrait(c):`assets/puppets/${escapeHtml(c.file)}`}" alt="${escapeHtml(c.name)} puppet"></div><div class="cast-info"><b>${escapeHtml(i+1)} · ${escapeHtml(c.name)}</b><small class="identity">${escapeHtml(c.identity)}</small></div></div><div class="cast-slots"><div class="slot"><small>Dress</small><span>${escapeHtml(c.slots.costume)}</span></div><div class="slot"><small>Right hand</small><span>${escapeHtml(c.slots.hand1)}</span></div><div class="slot"><small>Left hand</small><span>${escapeHtml(c.slots.hand2)}</span></div><div class="slot"><small>Ride</small><span>${escapeHtml(c.slots.ride)}</span></div></div></div>`).join('');$('#castTotal').textContent=cast.length}
