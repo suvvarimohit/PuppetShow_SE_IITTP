@@ -861,52 +861,8 @@ main {
   transform: translate(-50%, 0);
 }
 
-/* ---------- desktop layouts fill the available window ---------- */
+/* ---------- desktop: show page fills the window ---------- */
 @media (min-width: 861px) {
-  .input-view {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    min-height: 0;
-    overflow: hidden;
-  }
-  .input-view main {
-    display: flex;
-    flex: 1;
-    min-height: 0;
-    flex-direction: column;
-    padding-top: clamp(8px, 1.4vh, 16px);
-    padding-bottom: clamp(10px, 1.8vh, 22px);
-  }
-  .input-view .input-page-grid {
-    flex: 1;
-    min-height: 0;
-    grid-template-rows: minmax(0, 1fr);
-  }
-  .input-view .page-input,
-  .input-view .estimate-panel {
-    min-height: 0;
-  }
-  .input-view .page-input textarea {
-    flex: 1;
-    height: auto;
-    min-height: 100px;
-    resize: none;
-  }
-  .input-view .estimate-panel {
-    gap: clamp(12px, 2vh, 24px);
-    padding-block: clamp(16px, 3vh, 34px);
-  }
-  .input-view .estimate-panel h2 {
-    margin-bottom: clamp(10px, 1.8vh, 20px);
-    font-size: clamp(1.55rem, 2.6vw, 2.25rem);
-  }
-  .input-view .lineup {
-    height: clamp(105px, 19vh, 190px);
-  }
-  .input-view .estimate {
-    padding: clamp(12px, 1.8vh, 18px) clamp(14px, 1.8vw, 22px);
-  }
   .show-view {
     height: 100vh;
     overflow: hidden;
