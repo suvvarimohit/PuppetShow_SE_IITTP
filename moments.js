@@ -1,7 +1,7 @@
 (() => {
   const RULES = [
     ['rideBoat', /\b(?:boards?|boarded|sails?|sailed|rows?|rowed|paddles?|paddled|floats? across)\b/i, 2.4],
-    ['ride', /\b(?:rides?|rode|riding|mounts?|mounted|gallops?|galloped)\b/i, 2.1],
+    ['ride', /\b(?:rides?|rode|riding|mounts?|mounted|gallops?|galloped)\b|\b(?:goes?|went|travels?|travelled|traveled|journeys?|journeyed|walks?|walked)\b.{0,55}\b(?:on|upon|astride)\s+(?:(?:his|her|their|a|an|the)\s+)?(?:horse|camel|elephant)\b/i, 2.1],
     ['fight', /\b(?:fights?|fought|duels?|brawls?|battled|battling)\b/i, 2.2],
     ['attack', /\b(?:attacks?|shoots?|shot|fires?|fired|launches?|launched|strikes?|struck|hits?|hit|stabs?|stabbed|swings?|swung|slashes?|slashed|punch(?:es|ed|ing)?|kicks?|kicked)\b/i, 1.7],
     ['defend', /\b(?:defends?|defended|blocks?|blocked|parries?|parried|shields?)\b/i, 1.6],
