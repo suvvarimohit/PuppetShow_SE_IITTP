@@ -1,0 +1,506 @@
+[
+  {
+    "file": "animal-templates/p3-elephant.png",
+    "width": 159,
+    "height": 93,
+    "legs": [
+      {
+        "file": "animal-rigs/elephant/leg-1.png",
+        "pivotX": 32.0,
+        "pivotY": 91,
+        "width": 36,
+        "height": 54
+      },
+      {
+        "file": "animal-rigs/elephant/leg-2.png",
+        "pivotX": 62.5,
+        "pivotY": 91,
+        "width": 29,
+        "height": 51
+      },
+      {
+        "file": "animal-rigs/elephant/leg-3.png",
+        "pivotX": 96.5,
+        "pivotY": 91,
+        "width": 27,
+        "height": 51
+      },
+      {
+        "file": "animal-rigs/elephant/leg-4.png",
+        "pivotX": 128.0,
+        "pivotY": 91,
+        "width": 30,
+        "height": 55
+      }
+    ],
+    "maxLegHeight": 55
+  },
+  {
+    "file": "animal-templates/p3-lion.png",
+    "width": 149,
+    "height": 97,
+    "legs": [
+      {
+        "file": "animal-rigs/lion/leg-1.png",
+        "pivotX": 31.0,
+        "pivotY": 95,
+        "width": 34,
+        "height": 56
+      },
+      {
+        "file": "animal-rigs/lion/leg-2.png",
+        "pivotX": 58.0,
+        "pivotY": 95,
+        "width": 30,
+        "height": 53
+      },
+      {
+        "file": "animal-rigs/lion/leg-3.png",
+        "pivotX": 91.5,
+        "pivotY": 95,
+        "width": 29,
+        "height": 52
+      },
+      {
+        "file": "animal-rigs/lion/leg-4.png",
+        "pivotX": 120.0,
+        "pivotY": 95,
+        "width": 30,
+        "height": 57
+      }
+    ],
+    "maxLegHeight": 57
+  },
+  {
+    "file": "animal-templates/p3-tiger.png",
+    "width": 146,
+    "height": 93,
+    "legs": [
+      {
+        "file": "animal-rigs/tiger/leg-1.png",
+        "pivotX": 26.5,
+        "pivotY": 91,
+        "width": 37,
+        "height": 56
+      },
+      {
+        "file": "animal-rigs/tiger/leg-2.png",
+        "pivotX": 54.5,
+        "pivotY": 91,
+        "width": 29,
+        "height": 54
+      },
+      {
+        "file": "animal-rigs/tiger/leg-3.png",
+        "pivotX": 88.5,
+        "pivotY": 91,
+        "width": 29,
+        "height": 52
+      },
+      {
+        "file": "animal-rigs/tiger/leg-4.png",
+        "pivotX": 117.0,
+        "pivotY": 91,
+        "width": 34,
+        "height": 56
+      }
+    ],
+    "maxLegHeight": 56
+  },
+  {
+    "file": "animal-templates/p3-bear.png",
+    "width": 132,
+    "height": 88,
+    "legs": [
+      {
+        "file": "animal-rigs/bear/leg-1.png",
+        "pivotX": 28.0,
+        "pivotY": 86,
+        "width": 36,
+        "height": 56
+      },
+      {
+        "file": "animal-rigs/bear/leg-2.png",
+        "pivotX": 55.0,
+        "pivotY": 86,
+        "width": 30,
+        "height": 53
+      },
+      {
+        "file": "animal-rigs/bear/leg-3.png",
+        "pivotX": 88.5,
+        "pivotY": 86,
+        "width": 27,
+        "height": 51
+      },
+      {
+        "file": "animal-rigs/bear/leg-4.png",
+        "pivotX": 118.0,
+        "pivotY": 86,
+        "width": 28,
+        "height": 54
+      }
+    ],
+    "maxLegHeight": 56
+  },
+  {
+    "file": "animal-templates/p3-wolf.png",
+    "width": 165,
+    "height": 88,
+    "legs": [
+      {
+        "file": "animal-rigs/wolf/leg-1.png",
+        "pivotX": 43.0,
+        "pivotY": 86,
+        "width": 36,
+        "height": 55
+      },
+      {
+        "file": "animal-rigs/wolf/leg-2.png",
+        "pivotX": 71.0,
+        "pivotY": 86,
+        "width": 30,
+        "height": 53
+      },
+      {
+        "file": "animal-rigs/wolf/leg-3.png",
+        "pivotX": 105.0,
+        "pivotY": 86,
+        "width": 28,
+        "height": 51
+      },
+      {
+        "file": "animal-rigs/wolf/leg-4.png",
+        "pivotX": 133.0,
+        "pivotY": 86,
+        "width": 30,
+        "height": 54
+      }
+    ],
+    "maxLegHeight": 55
+  },
+  {
+    "file": "animal-templates/p3-deer.png",
+    "width": 132,
+    "height": 107,
+    "legs": [
+      {
+        "file": "animal-rigs/deer/leg-1.png",
+        "pivotX": 26.0,
+        "pivotY": 105,
+        "width": 32,
+        "height": 55
+      },
+      {
+        "file": "animal-rigs/deer/leg-2.png",
+        "pivotX": 51.5,
+        "pivotY": 105,
+        "width": 27,
+        "height": 52
+      },
+      {
+        "file": "animal-rigs/deer/leg-3.png",
+        "pivotX": 91.5,
+        "pivotY": 105,
+        "width": 25,
+        "height": 50
+      },
+      {
+        "file": "animal-rigs/deer/leg-4.png",
+        "pivotX": 116.5,
+        "pivotY": 105,
+        "width": 29,
+        "height": 56
+      }
+    ],
+    "maxLegHeight": 56
+  },
+  {
+    "file": "animal-templates/p3-cow.png",
+    "width": 158,
+    "height": 96,
+    "legs": [
+      {
+        "file": "animal-rigs/cow/leg-1.png",
+        "pivotX": 39.5,
+        "pivotY": 94,
+        "width": 33,
+        "height": 55
+      },
+      {
+        "file": "animal-rigs/cow/leg-2.png",
+        "pivotX": 68.5,
+        "pivotY": 94,
+        "width": 27,
+        "height": 50
+      },
+      {
+        "file": "animal-rigs/cow/leg-3.png",
+        "pivotX": 106.5,
+        "pivotY": 94,
+        "width": 29,
+        "height": 55
+      },
+      {
+        "file": "animal-rigs/cow/leg-4.png",
+        "pivotX": 131.5,
+        "pivotY": 94,
+        "width": 27,
+        "height": 51
+      }
+    ],
+    "maxLegHeight": 55
+  },
+  {
+    "file": "animal-templates/p3-buffalo.png",
+    "width": 162,
+    "height": 94,
+    "legs": [
+      {
+        "file": "animal-rigs/buffalo/leg-1.png",
+        "pivotX": 36.5,
+        "pivotY": 92,
+        "width": 27,
+        "height": 54
+      },
+      {
+        "file": "animal-rigs/buffalo/leg-2.png",
+        "pivotX": 64.5,
+        "pivotY": 92,
+        "width": 23,
+        "height": 51
+      },
+      {
+        "file": "animal-rigs/buffalo/leg-3.png",
+        "pivotX": 102.0,
+        "pivotY": 92,
+        "width": 24,
+        "height": 50
+      },
+      {
+        "file": "animal-rigs/buffalo/leg-4.png",
+        "pivotX": 130.5,
+        "pivotY": 92,
+        "width": 27,
+        "height": 54
+      }
+    ],
+    "maxLegHeight": 54
+  },
+  {
+    "file": "animal-templates/p3-goat.png",
+    "width": 136,
+    "height": 97,
+    "legs": [
+      {
+        "file": "animal-rigs/goat/leg-1.png",
+        "pivotX": 33.5,
+        "pivotY": 95,
+        "width": 31,
+        "height": 54
+      },
+      {
+        "file": "animal-rigs/goat/leg-2.png",
+        "pivotX": 59.0,
+        "pivotY": 95,
+        "width": 26,
+        "height": 51
+      },
+      {
+        "file": "animal-rigs/goat/leg-3.png",
+        "pivotX": 94.0,
+        "pivotY": 95,
+        "width": 26,
+        "height": 53
+      },
+      {
+        "file": "animal-rigs/goat/leg-4.png",
+        "pivotX": 118.5,
+        "pivotY": 95,
+        "width": 27,
+        "height": 50
+      }
+    ],
+    "maxLegHeight": 54
+  },
+  {
+    "file": "animal-templates/p3-sheep.png",
+    "width": 141,
+    "height": 89,
+    "legs": [
+      {
+        "file": "animal-rigs/sheep/leg-1.png",
+        "pivotX": 34.0,
+        "pivotY": 87,
+        "width": 30,
+        "height": 50
+      },
+      {
+        "file": "animal-rigs/sheep/leg-2.png",
+        "pivotX": 60.0,
+        "pivotY": 87,
+        "width": 26,
+        "height": 48
+      },
+      {
+        "file": "animal-rigs/sheep/leg-3.png",
+        "pivotX": 95.5,
+        "pivotY": 87,
+        "width": 25,
+        "height": 49
+      },
+      {
+        "file": "animal-rigs/sheep/leg-4.png",
+        "pivotX": 120.5,
+        "pivotY": 87,
+        "width": 27,
+        "height": 53
+      }
+    ],
+    "maxLegHeight": 53
+  },
+  {
+    "file": "animal-templates/p3-horse.png",
+    "width": 177,
+    "height": 102,
+    "legs": [
+      {
+        "file": "animal-rigs/horse/leg-1.png",
+        "pivotX": 36.0,
+        "pivotY": 100,
+        "width": 40,
+        "height": 66
+      },
+      {
+        "file": "animal-rigs/horse/leg-2.png",
+        "pivotX": 63.5,
+        "pivotY": 100,
+        "width": 31,
+        "height": 63
+      },
+      {
+        "file": "animal-rigs/horse/leg-3.png",
+        "pivotX": 103.5,
+        "pivotY": 100,
+        "width": 27,
+        "height": 63
+      },
+      {
+        "file": "animal-rigs/horse/leg-4.png",
+        "pivotX": 132.5,
+        "pivotY": 100,
+        "width": 39,
+        "height": 68
+      }
+    ],
+    "maxLegHeight": 68
+  },
+  {
+    "file": "animal-templates/p3-camel.png",
+    "width": 172,
+    "height": 97,
+    "legs": [
+      {
+        "file": "animal-rigs/camel/leg-1.png",
+        "pivotX": 34.0,
+        "pivotY": 95,
+        "width": 40,
+        "height": 67
+      },
+      {
+        "file": "animal-rigs/camel/leg-2.png",
+        "pivotX": 63.0,
+        "pivotY": 95,
+        "width": 30,
+        "height": 64
+      },
+      {
+        "file": "animal-rigs/camel/leg-3.png",
+        "pivotX": 102.5,
+        "pivotY": 95,
+        "width": 31,
+        "height": 62
+      },
+      {
+        "file": "animal-rigs/camel/leg-4.png",
+        "pivotX": 132.5,
+        "pivotY": 95,
+        "width": 35,
+        "height": 70
+      }
+    ],
+    "maxLegHeight": 70
+  },
+  {
+    "file": "animal-templates/p3-donkey.png",
+    "width": 158,
+    "height": 100,
+    "legs": [
+      {
+        "file": "animal-rigs/donkey/leg-1.png",
+        "pivotX": 31.5,
+        "pivotY": 98,
+        "width": 41,
+        "height": 68
+      },
+      {
+        "file": "animal-rigs/donkey/leg-2.png",
+        "pivotX": 61.0,
+        "pivotY": 98,
+        "width": 30,
+        "height": 62
+      },
+      {
+        "file": "animal-rigs/donkey/leg-3.png",
+        "pivotX": 101.5,
+        "pivotY": 98,
+        "width": 27,
+        "height": 62
+      },
+      {
+        "file": "animal-rigs/donkey/leg-4.png",
+        "pivotX": 130.5,
+        "pivotY": 98,
+        "width": 39,
+        "height": 67
+      }
+    ],
+    "maxLegHeight": 68
+  },
+  {
+    "file": "animal-templates/p3-fox.png",
+    "width": 147,
+    "height": 92,
+    "legs": [
+      {
+        "file": "animal-rigs/fox/leg-1.png",
+        "pivotX": 29.0,
+        "pivotY": 90,
+        "width": 38,
+        "height": 62
+      },
+      {
+        "file": "animal-rigs/fox/leg-2.png",
+        "pivotX": 56.5,
+        "pivotY": 90,
+        "width": 29,
+        "height": 59
+      },
+      {
+        "file": "animal-rigs/fox/leg-3.png",
+        "pivotX": 94.0,
+        "pivotY": 90,
+        "width": 28,
+        "height": 58
+      },
+      {
+        "file": "animal-rigs/fox/leg-4.png",
+        "pivotX": 124.0,
+        "pivotY": 90,
+        "width": 38,
+        "height": 64
+      }
+    ],
+    "maxLegHeight": 64
+  }
+]

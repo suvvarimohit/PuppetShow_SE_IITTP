@@ -37,7 +37,7 @@
     if (!actor) return 'human';
     if (actor.role === 'bird' || /parrot|peacock|eagle|crow|bird/i.test(`${actor.identity} ${actor.file}`)) return 'bird';
     if (actor.role === 'animal' || /animal-templates|animal-/i.test(`${actor.id} ${actor.file}`)) return 'animal';
-    if (/human-templates|human-template/i.test(`${actor.id} ${actor.file}`)) return 'human';
+    if (/human-rigs|human-rig/i.test(`${actor.id} ${actor.file}`)) return 'human';
     if (/tree|plant|flower|sun|moon|river|mountain/i.test(actor.identity||'')) return 'object';
     return 'human';
   }
