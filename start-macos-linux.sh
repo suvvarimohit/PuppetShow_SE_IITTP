@@ -2,7 +2,7 @@
 set -eu
 
 # The hosted app avoids requiring a local Python or HTTP server.
-APP_URL="https://suvvarimohit.github.io/PuppetShow_ProtoType_SE_IITTP/"
+APP_URL="https://suvvarimohit.github.io/PuppetShow_SE_IITTP/"
 
 case "$(uname -s)" in
   Darwin) open "$APP_URL" ;;

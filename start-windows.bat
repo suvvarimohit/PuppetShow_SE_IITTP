@@ -6,4 +6,3 @@ if errorlevel 1 (
   echo The web server could not start. Check whether port 4174 is already in use.
   pause
 )
-

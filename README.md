@@ -30,48 +30,40 @@ The hosted app can be opened directly on phones, tablets, and computers with int
 ## Current scope
 
 - Stories can produce up to eight minutes of estimated show time. Long inputs are shortened toward the limit while retaining higher-scoring story moments.
-- The mapper can identify up to eighteen named story characters and assigns role-based art from the supplied human and animal template sets. Characters without an exact animal template use the closest available supplied sprite while preserving their story name.
+- The mapper can identify up to eighteen named story characters, including people, animals, and personified story objects. The puppet library includes distinct illustrated lions, rabbits, elephants, foxes, fish, flowers, the sun, the moon, and a river, alongside the existing people, birds, turtles, and trees.
 - Characters visible in each act are arranged side by side at separate stage positions; their lineup adapts to the number of participants in that act.
 - Scene backgrounds persist across character turns and change when the story moves to another setting. Daylight shades remain steady until the story gives a new time cue. The act caption appears at the bottom of the show.
-- Human templates use the included limb rig and pivot metadata for walking, running, waving, jumping, fighting, defending, dancing, falling, and recovery. Animals use the supplied animal sprites and role-appropriate whole-puppet motion. Horse and boat rides are composite stage moments, so the mount is not added as a duplicate cast member. Supplied sword, shield, bow, arrow, boat, sun, and cloud assets are used in the show.
-- Each setting gets its own baseline/upper-line point count, sized to the largest cast present in that setting's acts. The act timeline shows the active point and that setting's total points.
+- Character identity, costume, both hand slots, and ride slots are composited into a single puppet image. Detailed pre-drawn variants include sword-and-shield guards, horse and boat riders, basket carriers, archers, and lantern bearers; other recognized tools and rides are drawn into the generated character image. Story actions animate entrances and exits, walking and running travel at different paces with distinct bounce, jumps, waves for human puppets, turns, dances, meetings, sword attacks, repeated fight beats, falls and recovery, horse-riding travel, flight, defensive shield effects, and target reactions. Stage travel and character movement are timed alongside spoken dialogue. Twenty human character templates from the supplied sheets are cropped into transparent PNG assets and selected by story names or roles, including royalty, villagers, children, guards, thieves, demons, and the Ramayana characters. These templates animate as complete figures. The original human-a King rig separately animates its body parts for walking, running, waving, dancing, fighting, and defending when no hand props or ride are assigned.
+- Each setting gets its own baseline/upper-line point count, sized to the largest cast present in that setting's acts. The act timeline highlights the current speaker and action; the matching cast card is marked on stage. Scene backdrops preload before playback and crossfade when a story location changes, while time-of-day lighting follows story cues.
 - Play/Pause controls the live performance and browser speech. Afterward, the final frame remains visible and the show does not loop.
-- Base story parsing, conversion estimates, character assignment, motion, and scene choices use local heuristics. Optional Cloudflare AI enrichment can add scene, time-of-day, and movement-description suggestions for stories the rules flag as difficult.
-- Action narration is spoken by an off-screen narrator; quoted dialogue is spoken by the identified character. Narrator is not added to the on-stage cast. Animals are not assigned hand props. The act timeline includes a generated movement description.
-- The supplied P7 and P8 theatrical backdrops are selected by story location, with time-of-day lighting applied separately.
-- Browser voices are device-specific and require browser speech-synthesis support. After the show page opens, tap the stage prompt once to allow voice playback; if the browser has no usable voice, the show continues at narration pace. No audio or video file is rendered or downloaded.
-
-## Optional open-model story enrichment
-
-Story and routine moment mapping run in the browser first. For ambiguous story reasoning the app can request extra scene and movement details. Multi-beat actions involving props or targets can request a bounded moment sequence from `/analyze-moments`. Returned character names, scenes, action kinds, and durations are validated; local story and moment mapping continue if the Worker is unavailable or reaches its provider limit.
-
-The Worker uses Qwen 3.8 27B through Cloudflare Workers AI. The model is available under Apache 2.0 terms; Cloudflare's hosted inference still has service limits. The Workers Free plan currently includes 10,000 Neurons per day, after which inference calls fail until the quota resets or a paid plan is used. To conserve that allowance, the app only sends eligible stories up to 6,000 characters and 30 acts, and requests a bounded output. [Cloudflare model details](https://developers.cloudflare.com/workers-ai/models/qwen3.8-27b/) · [Cloudflare AI pricing and limits](https://developers.cloudflare.com/workers-ai/platform/pricing/) · [Qwen model license](https://huggingface.co/Qwen/Qwen3.8-27B).
-
-To enable AI enrichment:
-
-1. Create a Cloudflare account, then from the project directory run `cd worker`, `npx wrangler@latest login`, and `npx wrangler@latest deploy`.
-2. If you reuse this Worker configuration for another Worker in the same Cloudflare account, give it an unused `ratelimits[0].namespace_id`. Add your published site origin to `ALLOWED_ORIGINS` if it differs from the listed GitHub Pages origin.
-3. Copy the deployed `workers.dev` URL into `ai-config.js` as `window.PUPPETSHOW_AI_ENDPOINT`. This is a public endpoint URL, not a secret. The AI binding and model access remain on Cloudflare; do not put account tokens or model credentials in browser files.
-
-The Worker allows five enrichment calls per minute per client IP and story-enrichment route. Cloudflare documents this rate limiter as approximate and location-based, so it reduces casual overuse but is not a strict global quota. The AI daily quota is separately enforced by Cloudflare. If it is reached, the browser uses local conversion instead.
+- Story parsing, conversion estimates, character assignment, motion, and scene choices are local heuristics, not AI language understanding.
+- Twenty-five theatrical backdrops are included and selected from story locations: royal palace, throne hall, queen's chamber, prince's garden, village, market, farmland, riverbank, forest/jungle, forest hut, rishi ashram, mountains, cave, battlefield, Lanka, Ayodhya, Dwarka, Kurukshetra, Panchavati forest, seashore, temple, house interior, jail, night scene, and celestial heaven. Scene changes follow location cues in the story, with time-of-day lighting applied separately.
+- Browser voices are device-specific and require browser speech-synthesis support. No audio or video file is rendered or downloaded.
 
 ## Files
 
 - `index.html`, `input.js`: story input and conversion estimate.
-- `puppet-show.html`, `app.js`, `moments.js`, `style.css`: cast mapping, role-to-moment mapping, show rendering, and playback.
+- `puppet-show.html`, `app.js`, `style.css`: cast mapping, show rendering, and playback.
 - `server.ps1`: Windows local web server using built-in PowerShell.
 - `server.py`: optional local server using Python's standard library.
 - `start-windows.bat`: Windows local launcher; does not require Python.
 - `start-macos-linux.sh`: opens the hosted app; does not require Python.
 - `.github/workflows/pages.yml`: publishes the static app to GitHub Pages after Pages is enabled.
-- `.github/workflows/pages.yml`: deploys the Cloudflare Worker after the Pages deployment when a `CLOUDFLARE_API_TOKEN` repository secret is set.
-- `ai-config.js`: public Worker URL used for optional AI enrichment; it contains no credential.
-- `worker/`: Cloudflare Worker source, Workers AI binding, CORS allowlist, and request rate limit.
-- `assets/puppets/`: animal sprites, human templates and rig parts, and prop artwork from the supplied bundle.
-- `assets/backgrounds/`: the supplied P7 and P8 theatrical scenes.
-- `MOVEMENT_DEMO.txt`: a sample story for trying the movement and action set.
+- `assets/puppets/`, `assets/backgrounds/`: reusable puppet figures and illustrated scenes.
+- `MOVEMENT_DEMO.txt` is a bundled sample story for trying the boat, horse, bow-and-arrow, animal, travel, and combat scenes.
 
-## Action moment model
 
-`moments.js` maps extracted actions to role-compatible moments before playback. Human puppets use the supplied limb pivots, while animals use movement that does not add hand props. When browser speech reports word boundaries, the animation begins at the matching spoken action word. Compound actions involving a target, weapon, or ride may use the Worker to return a short, validated sequence; the local moment map remains the fallback.
+## Human puppet movement
 
+The human templates use shoulder and hip pivots. Arms overlap the torso at the shoulder; the mechanical hinge pins are hidden for a clean puppet look. Walk, run, enter, exit, and retreat actions swing the arms and legs; wave, fight, defend, jump, and dance use their own poses. Use the included `MOVEMENT_DEMO.txt` to try these actions in the story input screen.
+
+## Animals, rescue actions, and story props
+
+Fourteen animals from the supplied P8 sheet (including the horse) are split into body and four leg parts. Printed pivot dots are removed from animal body art, and leg tops tuck behind the body silhouette. Their legs swing in coordinated walk, trot, run, and riding cycles; the ridden horse animates behind the rider. Other animal sprites retain whole-body movement. The supplied crescent moon is shown for moon and night story cues, with the white image background removed during rendering. Clouds and the sun appear in the sky when mentioned. A sword is anchored to the puppet’s anatomical right hand (the viewer’s left), and a shield is anchored to its anatomical left hand (the viewer’s right). Their positions follow the animated arm pivots during gestures and fighting. The project includes the five P7 stage backgrounds and all twenty-five individual scenes cut from the added BG sheet.
+
+The story mapper recognizes lifting and hoisting, rescue/help/free actions, throwing and pulling a rope, handing over or sharing supplies, and kneeling. These cues animate the speaker’s arm/body pose, add a lifted branch, rope or medicine packet where the story calls for one, and give named recipients a small response. Boat/river rescue cues add a boat at the river scene. Storm/rain wording adds animated rain, while location and time-of-day cues keep scenery and lighting aligned with the narration. Try the complete sequence in `MOVEMENT_DEMO.txt`; action names should be stated clearly (for example, “Hanuman threw a rope to the fisherman”).
+
+
+## Boats, horses, bows, and scene backdrops
+
+The supplied wooden boat and bow are staged as separate transparent assets. Boat rides keep the puppet standing on the deck and move the boat with the rider; horse rides place a rigged rider over the horse with one leg draped across it. Bow attacks use a right-hand bow and launch an arrow toward the named target. Background location words in each story act select the closest matching backdrop; night scenes use their own illustrated background.

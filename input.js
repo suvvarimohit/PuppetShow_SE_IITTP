@@ -13,7 +13,7 @@ function refreshEstimate() {
   const sentences = (text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || []).filter(s => s.trim());
   const names = [...new Set((text.match(/\b[A-Z][a-z]{2,}\b/g) || []).filter(name => !/^(The|And|But|Once|When|After|Before|Soon|There|Their|Then|Every|Finally|One|At|In|By|As|It|She|He|They|This|That)$/.test(name)))];
   const dialogue = (text.match(/[“"][^”"]{3,}[”"]/g) || []).length;
-  const cues = (text.match(/\b(said|asked|replied|whispered|shouted|told|called|answered|helped|found|met|went|came|ran|walked|carried|returned|shared)\b/gi) || []).length;
+  const cues = (text.match(/\b(said|asked|replied|whispered|shouted|told|called|answered|helped|found|met|went|came|ran|walked|carried|returned|shared|jumped|leaped|waved|danced|fought|attacked|defended|blocked|marched|sprinted)\b/gi) || []).length;
   let percent = 42 + Math.min(20, names.length * 7) + Math.min(18, dialogue * 6) + Math.min(16, cues * 2);
   if (words.length > 160) percent -= 18;
   percent = Math.max(25, Math.min(92, percent));
