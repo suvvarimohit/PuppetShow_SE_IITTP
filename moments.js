@@ -48,7 +48,8 @@
     if(role!=='human'&&primary.kind==='rideBoat')primary={kind:'walk',index:primary.index,word:primary.word,duration:DURATION.walk};
     const distinct=[...new Map(matches.map(match=>[match.kind,match])).values()];
     const complex=(distinct.length>1&&/\b(?:and then|before|after|while|as soon as|and)\b/i.test(source))||(/\b(?:arrow|bow|sword|shield|boat|horse|target|enemy|opponent)\b/i.test(source)&&matches.some(match=>['attack','fight','defend','ride','rideBoat'].includes(match.kind)))||Boolean(target&&['attack','fight','defend'].includes(primary.kind));
-    return {kind:primary.kind,index:primary.index,word:primary.word,duration:DURATION[primary.kind]||primary.duration||DURATION.still,label:LABEL[primary.kind]||LABEL.still,role,target:target||null,sequence:distinct.map(match=>match.kind),needsAI:complex};
+    const sequence=distinct.map(match=>match.kind),duration=sequence.length>1?distinct.reduce((sum,match)=>sum+(DURATION[match.kind]||match.duration||1),0):DURATION[primary.kind]||primary.duration||DURATION.still;
+    return {kind:primary.kind,index:primary.index,word:primary.word,duration,label:LABEL[primary.kind]||LABEL.still,role,target:target||null,sequence,needsAI:complex};
   }
   function apply(act) {
     const target=act.target||act.mentions?.find(character=>character.id!==act.actor?.id)||null,moment=classify(act.actionSource||act.sourceSentence||act.text,act.actor,target);
