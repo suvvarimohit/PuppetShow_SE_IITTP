@@ -36,14 +36,24 @@ The hosted app can be opened directly on phones, tablets, and computers with int
 - Character identity, costume, both hand slots, and ride slots are composited into a single puppet image. Detailed pre-drawn variants include sword-and-shield guards, horse and boat riders, basket carriers, archers, and lantern bearers; other recognized tools and rides are drawn into the generated character image. Story actions animate entrances and exits, walking and running travel at different paces with distinct bounce, jumps, waves for human puppets, turns, dances, meetings, sword attacks, repeated fight beats, falls and recovery, horse-riding travel, flight, defensive shield effects, and target reactions. Stage travel and character movement are timed alongside spoken dialogue. Twenty human character templates from the supplied sheets are cropped into transparent PNG assets and selected by story names or roles, including royalty, villagers, children, guards, thieves, demons, and the Ramayana characters. These templates animate as complete figures. The original human-a King rig separately animates its body parts for walking, running, waving, dancing, fighting, and defending when no hand props or ride are assigned.
 - Each setting gets its own baseline/upper-line point count, sized to the largest cast present in that setting's acts. The act timeline highlights the current speaker and action; the matching cast card is marked on stage. Scene backdrops preload before playback and crossfade when a story location changes, while time-of-day lighting follows story cues.
 - Play/Pause controls the live performance and browser speech. Afterward, the final frame remains visible and the show does not loop.
-- Story parsing, conversion estimates, character assignment, motion, and scene choices are local heuristics, not AI language understanding.
+- Story parsing, cast identity, dialogue voice, and baseline act conversion remain local. Cloudflare Workers AI is called only for complex or uncertain physical actions; any unavailable, rejected, or low-confidence suggestion falls back to the local mapper.
 - Twenty-five theatrical backdrops are included and selected from story locations: royal palace, throne hall, queen's chamber, prince's garden, village, market, farmland, riverbank, forest/jungle, forest hut, rishi ashram, mountains, cave, battlefield, Lanka, Ayodhya, Dwarka, Kurukshetra, Panchavati forest, seashore, temple, house interior, jail, night scene, and celestial heaven. Scene changes follow location cues in the story, with time-of-day lighting applied separately.
 - Browser voices are device-specific and require browser speech-synthesis support. No audio or video file is rendered or downloaded.
+
+
+## Optional Cloudflare Workers AI enrichment
+
+The show page sends one bounded request to the Cloudflare Worker only when local rules find complex or uncertain physical actions. Cloudflare Workers AI runs OpenAI's open-weight GPT-OSS 20B model to refine a movement, action description, target, setting, or time cue. The browser validates every result against the existing cast, role, movement list, and already-equipped assets. The Worker cannot add characters, change dialogue speakers, give animals hand props, or invent tools. If Workers AI is unavailable or reaches its allowance, local conversion continues unchanged.
+
+To deploy the Worker from an authenticated machine, run `npx wrangler@latest login` once, then `npx wrangler@latest deploy` from the `worker` directory. `ai-config.js` contains only the public Worker URL. The Pages workflow publishes the app on every push. It also deploys the Worker when `CLOUDFLARE_API_TOKEN` is configured as a GitHub Actions secret.
+
+Workers AI currently includes 10,000 Neurons per day at no charge; limits reset daily, and requests can fail after the free allowance unless billing is enabled. GPT-OSS 20B is priced at $0.20 per million input tokens and $0.30 per million output tokens after the free allocation. The app limits AI requests to stories under 6,000 characters and 30 acts, sends at most twelve uncertain action records in one request, and falls back to local mapping on timeout, rate limit, or low-confidence output. The local mapper remains available as the fallback. [Workers AI pricing and limits](https://developers.cloudflare.com/workers-ai/platform/pricing/) · [GPT-OSS 20B model](https://developers.cloudflare.com/workers-ai/models/gpt-oss-20b/)
 
 ## Files
 
 - `index.html`, `input.js`: story input and conversion estimate.
 - `puppet-show.html`, `app.js`, `style.css`: cast mapping, show rendering, and playback.
+- `ai-config.js`, `worker/`: optional Cloudflare Workers AI enrichment and its role/asset validation.
 - `server.ps1`: Windows local web server using built-in PowerShell.
 - `server.py`: optional local server using Python's standard library.
 - `start-windows.bat`: Windows local launcher; does not require Python.

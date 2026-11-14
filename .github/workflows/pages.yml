@@ -16,6 +16,8 @@ concurrency:
 
 jobs:
   deploy:
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -28,7 +30,7 @@ jobs:
       - name: Assemble browser app
         run: |
           mkdir -p _site
-          cp index.html puppet-show.html input.js app.js style.css MOVEMENT_DEMO.txt _site/
+          cp index.html puppet-show.html input.js app.js ai-config.js style.css MOVEMENT_DEMO.txt _site/
           cp -R assets _site/assets
           touch _site/.nojekyll
       - name: Upload site files
@@ -38,3 +40,13 @@ jobs:
       - name: Deploy site
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Deploy Cloudflare Worker
+        if: ${{ env.CLOUDFLARE_API_TOKEN != '' }}
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          workingDirectory: worker
+          command: deploy
+      - name: Note skipped Worker deployment
+        if: ${{ env.CLOUDFLARE_API_TOKEN == '' }}
+        run: echo 'Worker deployment skipped; set the CLOUDFLARE_API_TOKEN GitHub Actions secret. GitHub Pages deployment is unaffected.'
