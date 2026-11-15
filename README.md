@@ -77,3 +77,7 @@ The story mapper recognizes lifting and hoisting, rescue/help/free actions, thro
 ## Boats, horses, bows, and scene backdrops
 
 The supplied wooden boat and bow are staged as separate transparent assets. Boat rides keep the puppet standing on the deck and move the boat with the rider; horse rides place a rigged rider over the horse with one leg draped across it. Bow attacks use a right-hand bow and launch an arrow toward the named target. Background location words in each story act select the closest matching backdrop; night scenes use their own illustrated background.
+
+## contributions
+
+all the members of the team shared their zip files through other channels and once merged locally they were uploaded through this account. 
